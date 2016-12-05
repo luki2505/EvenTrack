@@ -7,16 +7,39 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-        return true
+        
+        prepareUI()
+        FIRApp.configure()
+        return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+    }
+    
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+        return FBSDKApplicationDelegate.sharedInstance()
+            .application(application, open: url,
+                         sourceApplication: sourceApplication, annotation: annotation)
+    }
+    
+    func prepareUI() {
+        UIApplication.shared.statusBarStyle = .lightContent
+        
+        let navigationColor = ColorManager.getNavigationColor()
+        
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(navigationColor.toImage(), for: UIBarMetrics.default)
+        UINavigationBar.appearance().barTintColor = navigationColor
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
