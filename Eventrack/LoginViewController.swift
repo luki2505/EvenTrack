@@ -19,7 +19,9 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         if isLoggedIn() {
-            performSegue(withIdentifier: "LoginSegue", sender: self)
+            // when a session is still available - login in automatically
+            // commented out for testing reasons!
+            //performSegue(withIdentifier: "LoginSegue", sender: self)
         }
     }
     
